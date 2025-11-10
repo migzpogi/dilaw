@@ -1,3 +1,11 @@
 p {
-    font-family: "Lucida Console", "Courier New", monospace;
+    font-family: "Cascadia Mono", sans-serif;
+    color: #FDB927;
+}
+h1 {
+    font-family: "Cascadia Mono", sans-serif;
+    color: #FDB927;
+}
+body {
+    background-color: #000000;
 }

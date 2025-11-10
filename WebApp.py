@@ -3,6 +3,7 @@ import json
 import socket
 
 from commonlib.initproperties import InitProperties
+from api.lakers import did_lakers_win
 
 # Initialize Flask related properties
 webapp_properties = InitProperties('Properties.ini').webapp()
@@ -39,8 +40,11 @@ def has_no_empty_params(rule):
 # Root, uses render_templete to generate HTML with CSS styling
 @app.route('/')
 def index():
-    return render_template('index.html')
-
+    result = did_lakers_win()
+    if result['won']:
+        return render_template('index.html', payload=result, won='YES!')
+    else:
+        return render_template('index.html', payload=result, won='NO!')
 
 # Sample JSON response
 @app.route("/json-response")
