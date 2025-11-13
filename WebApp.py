@@ -42,9 +42,9 @@ def has_no_empty_params(rule):
 def index():
     result = did_lakers_win()
     if result['won']:
-        return render_template('index.html', payload=result, won='YES!')
+        return render_template('yes.html', payload=result, won='YES!')
     else:
-        return render_template('index.html', payload=result, won='NO!')
+        return render_template('no.html', payload=result, won='NO!')
 
 # Sample JSON response
 @app.route("/json-response")
