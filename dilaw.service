@@ -1,0 +1,15 @@
+# Place in /etc/systemd/system/
+
+[Unit]
+Description=uWSGI instance of dilaw
+After=network.target
+
+[Service]
+User=your_user
+Group=www-data
+WorkingDirectory=/home/your_user/dilaw
+Environment="PATH=/home/your_user/venv_dilaw/bin"
+ExecStart=/home/your_user/venv_dilaw/bin/uwsgi --ini /home/your_user/dilaw/wsgi.ini --http 1.2.3.4:8000
+
+[Install]
+WantedBy=multi-user.target
