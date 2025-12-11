@@ -2,7 +2,7 @@ p {
     font-family: "Cascadia Mono", sans-serif;
     color: #FDB927;
 }
-h1, pre {
+h1 {
     font-family: "Cascadia Mono", sans-serif;
     color: #FDB927;
 }
@@ -12,4 +12,7 @@ body {
 .gamedate {
     font-family: "Cascadia Mono", sans-serif;
     color: #552583;;
+}
+pre {
+    color: #FDB927;
 }
