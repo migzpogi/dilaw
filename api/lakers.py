@@ -3,7 +3,7 @@ from nba_api.stats.static import teams
 from nba_api.stats.endpoints import leaguegamefinder
 
 
-def did_lakers_win(last_x_games=5):
+def did_lakers_win(last_x_games=2):
     lal_id = teams.find_team_by_abbreviation('LAL')['id']
     game_finder = leaguegamefinder.LeagueGameFinder(team_id_nullable=lal_id)
     all_games = game_finder.get_data_frames()[0]
@@ -17,12 +17,20 @@ def did_lakers_win(last_x_games=5):
         summary = {
             'won': None,
             'matchup': most_recent['MATCHUP'][idx],
+            'matchup_score': None,
             'game_date': most_recent['GAME_DATE'][idx],
             'home_score': box['game']['homeTeam']['score'],
             'away_score': box['game']['awayTeam']['score'],
             'home_team': box['game']['homeTeam']['teamTricode'],
-            'away_team': box['game']['awayTeam']['teamTricode']
+            'away_team': box['game']['awayTeam']['teamTricode'],
         }
+
+        if '@' in summary['matchup']:
+            summary['lal_score'] = summary['away_score']
+            summary['opp_score'] = summary['home_score']
+        else:
+            summary['lal_score'] = summary['home_score']
+            summary['opp_score'] = summary['away_score']
 
         if most_recent['WL'][idx] is not None:
             if most_recent['WL'][idx].upper() == 'W':
