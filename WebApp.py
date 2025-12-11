@@ -41,10 +41,51 @@ def has_no_empty_params(rule):
 @app.route('/')
 def index():
     result = did_lakers_win()
+
+    parsed_query = {
+        'user_agent': request.headers.get('User-Agent', '').lower()
+    }
+
+    user_agent = parsed_query.get('user_agent', '').lower()
+    is_html = not any(agent in user_agent for agent in PLAIN_TEXT_AGENTS)
+
     if result['won']:
-        return render_template('yes.html', payload=result, won='YES!')
+        if is_html:
+            return render_template('yes.html', payload=result, won='YES!')
+        else:
+            art = """
+__  _____________
+\ \/ / ____/ ___/
+ \  / __/  \__ \ 
+ / / /___ ___/ /
+/_/_____//____/
+            """
+            summary = f"{result['game_date']} \n" \
+                      f"{result['matchup']} \n" \
+                      f"{result['lal_score']} - {result['opp_score']}"
+            print(result['matchup'], result['game_date'], result['home_team'], result['home_score'], result['away_team'], result['away_score'])
+            response = make_response(art+"\n"+summary+"\n", 200)
+            response.mimetype = "text/plain"
+            return response
+
     else:
-        return render_template('no.html', payload=result, won='NO!')
+        if is_html:
+            return render_template('no.html', payload=result, won='NO!')
+        else:
+            art = """
+    _   ______
+   / | / / __ \  
+  /  |/ / / / /  
+ / /|  / /_/ /
+/_/ |_/\____/
+            """
+            summary = f"{result['game_date']} \n" \
+                      f"{result['matchup']} \n" \
+                      f"{result['lal_score']} - {result['opp_score']}"
+            print(result['matchup'], result['game_date'], result['home_team'], result['home_score'], result['away_team'], result['away_score'])
+            response = make_response(art+"\n"+summary+"\n", 200)
+            response.mimetype = "text/plain"
+            return response
 
 # Sample JSON response
 @app.route("/json-response")
